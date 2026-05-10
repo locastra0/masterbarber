@@ -9,8 +9,8 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     :root {
-      --primary-dark: #111111;
-      --card-dark: #1E1E1E;
+      --primary-dark: #0a0a0a;
+      --card-dark: #141414;
       --accent-gold: #D4A373;
     }
     body {
@@ -18,70 +18,99 @@
       background-color: var(--primary-dark);
       color: #E0E0E0;
       scroll-behavior: smooth;
+      overflow-x: hidden;
     }
     h1, h2, h3 { font-family: 'Poppins', sans-serif; }
     .gold-gradient { background: linear-gradient(135deg, #D4A373 0%, #A67C52 100%); }
     .text-gold { color: var(--accent-gold); }
     .bg-card { background-color: var(--card-dark); }
+    
     .hover-scale { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-    .hover-scale:hover { transform: translateY(-8px); box-shadow: 0 10px 40px -10px rgba(212, 163, 115, 0.4); }
-    .glow-effect { box-shadow: 0 0 20px rgba(212, 163, 115, 0.2); }
+    .hover-scale:hover { transform: translateY(-8px); box-shadow: 0 10px 40px -10px rgba(212, 163, 115, 0.3); }
     
     .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
     .reveal.active { opacity: 1; transform: translateY(0); }
 
-    .footer-glow {
-      position: relative;
-      overflow: hidden;
+    /* Mobile Menu Overlay */
+    #mobile-menu {
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateX(100%);
     }
-    .footer-glow::after {
-      content: '';
-      position: absolute;
-      top: -100px;
-      right: -100px;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(212,163,115,0.05) 0%, transparent 70%);
-      z-index: 0;
-    }
+    #mobile-menu.active { transform: translateX(0); }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-gold); }
   </style>
 </head>
 <body class="antialiased">
 
   <!-- Navigation -->
-  <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10 px-6 py-4">
+  <nav class="fixed w-full z-[100] bg-black/80 backdrop-blur-xl border-b border-white/5 px-4 md:px-8 py-4">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
-      <div class="text-2xl font-extrabold tracking-tighter text-gold">THE GENTLEMAN.</div>
-      <div class="hidden md:flex space-x-8 text-sm font-medium">
-        <a href="#about" class="hover:text-gold transition">Tentang</a>
-        <a href="#services" class="hover:text-gold transition">Layanan</a>
-        <a href="#process" class="hover:text-gold transition">Proses</a>
-        <a href="#portfolio" class="hover:text-gold transition">Hasil</a>
+      <div class="text-xl md:text-2xl font-black tracking-tighter text-gold uppercase">The Gentleman.</div>
+      
+      <!-- Desktop Menu -->
+      <div class="hidden lg:flex items-center space-x-10 text-xs font-bold uppercase tracking-widest">
+        <a href="#about" class="hover:text-gold transition-colors">Tentang</a>
+        <a href="#services" class="hover:text-gold transition-colors">Layanan</a>
+        <a href="#process" class="hover:text-gold transition-colors">Proses</a>
+        <a href="#portfolio" class="hover:text-gold transition-colors">Portofolio</a>
+        <a href="#testimonials" class="hover:text-gold transition-colors">Testimoni</a>
       </div>
-      <a href="#booking-cta" class="gold-gradient text-black px-6 py-2 rounded-full font-bold text-sm hover:scale-105 transition glow-effect">
-         Pesan Barber
-      </a>
+
+      <div class="flex items-center space-x-4">
+        <a href="#booking-cta" class="hidden sm:flex gold-gradient text-black px-6 py-2.5 rounded-full font-black text-xs uppercase tracking-wider hover:scale-105 transition shadow-lg shadow-gold/20">
+           Booking
+        </a>
+        
+        <!-- Hamburger Button -->
+        <button id="menu-toggle" class="lg:hidden text-gold p-2">
+          <i data-lucide="menu" class="w-7 h-7"></i>
+        </button>
+      </div>
     </div>
   </nav>
 
+  <!-- Mobile Menu Sidebar -->
+  <div id="mobile-menu" class="fixed inset-0 z-[110] bg-black/95 backdrop-blur-2xl flex flex-col items-center justify-center space-y-8 lg:hidden">
+    <button id="menu-close" class="absolute top-6 right-6 text-gold">
+      <i data-lucide="x" class="w-8 h-8"></i>
+    </button>
+    <a href="#about" class="mobile-link text-2xl font-bold uppercase tracking-widest">Tentang</a>
+    <a href="#services" class="mobile-link text-2xl font-bold uppercase tracking-widest">Layanan</a>
+    <a href="#process" class="mobile-link text-2xl font-bold uppercase tracking-widest">Proses</a>
+    <a href="#portfolio" class="mobile-link text-2xl font-bold uppercase tracking-widest">Portofolio</a>
+    <a href="#testimonials" class="mobile-link text-2xl font-bold uppercase tracking-widest">Testimoni</a>
+    <a href="#booking-cta" class="mobile-link gold-gradient text-black px-10 py-4 rounded-xl font-black uppercase">Pesan Sekarang</a>
+  </div>
+
   <!-- Hero Section -->
-  <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+  <section class="relative min-h-[90vh] md:min-h-screen flex items-center pt-20 overflow-hidden">
     <div class="absolute inset-0 z-0">
-      <div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent z-10"></div>
-      <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Latar Belakang Barber" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/60 md:bg-gradient-to-r md:from-black md:via-black/60 md:to-transparent z-10"></div>
+      <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Latar Belakang Barber" class="w-full h-full object-cover object-center">
     </div>
     <div class="relative z-20 max-w-7xl mx-auto px-6 w-full">
       <div class="max-w-2xl reveal active">
-        <div class="flex items-center space-x-2 text-gold mb-4">
-          <i data-lucide="award" class="w-5 h-5"></i>
-          <span class="text-xs uppercase tracking-[0.3em] font-bold">Barber Panggilan #1 di Kota Anda</span>
+        <div class="flex items-center space-x-2 text-gold mb-6">
+          <span class="w-8 h-px bg-gold hidden sm:block"></span>
+          <span class="text-[10px] sm:text-xs uppercase tracking-[0.4em] font-black">Barber Panggilan Eksklusif</span>
         </div>
-        <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-6">Barber Panggilan <br><span class="text-gold">Profesional</span> <br>Ke Rumah Anda.</h1>
-        <p class="text-lg text-gray-400 mb-10 leading-relaxed italic">"Cukur rambut tanpa antre, tanpa macet. Master Barber kami siap melayani Anda dengan standar VIP langsung di depan pintu rumah."</p>
-        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-          <a href="#booking-cta" class="gold-gradient text-black text-center px-10 py-5 rounded-xl font-bold text-lg hover:scale-105 transition shadow-2xl flex items-center justify-center space-x-2">
-            <i data-lucide="calendar-check" class="w-6 h-6"></i>
-            <span>Booking Sekarang</span>
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.1] mb-8">
+          The Luxury of <br><span class="text-gold italic">Grooming</span> <br>At Your Door.
+        </h1>
+        <p class="text-base sm:text-lg text-gray-400 mb-10 leading-relaxed max-w-md italic border-l-2 border-gold/30 pl-4">
+          "Hadirkan kenyamanan barbershop premium langsung ke tempat Anda. Praktis, steril, dan berkelas."
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="#booking-cta" class="gold-gradient text-black text-center px-8 py-4 sm:py-5 rounded-xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-transform">
+            Booking Sekarang
+          </a>
+          <a href="#services" class="bg-white/5 border border-white/10 text-center px-8 py-4 sm:py-5 rounded-xl font-black text-sm uppercase tracking-widest hover:bg-white/10 transition">
+            Lihat Layanan
           </a>
         </div>
       </div>
@@ -89,279 +118,272 @@
   </section>
 
   <!-- About Us Section -->
-  <section id="about" class="py-24 bg-black overflow-hidden">
+  <section id="about" class="py-20 md:py-32 bg-black overflow-hidden">
     <div class="max-w-7xl mx-auto px-6">
-      <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         <div class="relative reveal">
-          <div class="absolute -top-10 -left-10 w-40 h-40 bg-gold/10 rounded-full blur-3xl"></div>
-          <div class="relative rounded-3xl overflow-hidden border border-white/10 glow-effect">
-            <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=800&q=80" alt="Tentang Kami" class="w-full h-[500px] object-cover">
-            <div class="absolute bottom-0 left-0 right-0 gold-gradient p-8 text-black">
-              <p class="font-black text-3xl uppercase tracking-tighter italic">Experience the Luxury.</p>
+          <div class="relative rounded-3xl overflow-hidden border border-white/5 aspect-[4/5] sm:aspect-video lg:aspect-auto lg:h-[600px]">
+            <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=800&q=80" alt="Tentang Kami" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+            <div class="absolute bottom-10 left-10 text-white">
+              <h4 class="text-3xl font-black uppercase italic tracking-tighter">Premium Tools.</h4>
+              <p class="text-gold text-xs font-bold uppercase tracking-widest">Kualitas Tanpa Kompromi</p>
             </div>
           </div>
         </div>
-        <div class="reveal" style="transition-delay: 200ms;">
-          <h2 class="text-4xl font-bold mb-6 uppercase tracking-tight">Kualitas <span class="text-gold">Barbershop Mewah</span> Di Rumah Anda.</h2>
-          <p class="text-gray-400 mb-8 leading-relaxed">
-            The Gentleman hadir sebagai solusi bagi pria modern yang menghargai waktu. Kami bukan sekadar tukang cukur keliling; kami adalah layanan gaya hidup yang membawa standar sterilitas tinggi, alat premium, dan keahlian artistik langsung ke ruang tamu atau kantor Anda.
+        <div class="reveal">
+          <h2 class="text-3xl sm:text-4xl font-black mb-8 uppercase tracking-tighter leading-tight">
+            Lebih Dari Sekadar <span class="text-gold italic underline decoration-1">Cukur Rambut.</span>
+          </h2>
+          <p class="text-gray-400 mb-10 leading-relaxed text-sm sm:text-base">
+            Kami memahami bahwa penampilan adalah investasi. The Gentleman hadir untuk memanjakan pria modern dengan layanan grooming kelas satu tanpa perlu keluar rumah. Master barber kami dibekali dengan standar kebersihan UV-Sterilization untuk menjamin keamanan Anda.
           </p>
-          <div class="grid grid-cols-2 gap-6 mb-10">
-            <div class="flex items-start space-x-3">
-              <div class="text-gold mt-1"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
+            <div class="flex items-start space-x-4 p-4 rounded-2xl bg-white/5 border border-white/5">
+              <div class="text-gold"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
               <div>
-                <h4 class="font-bold text-white text-sm uppercase">100% Higienis</h4>
-                <p class="text-xs text-gray-500 italic">Alat disterilisasi dengan UV-C sebelum digunakan.</p>
+                <h5 class="font-bold text-xs uppercase tracking-widest mb-1">Ultra Higienis</h5>
+                <p class="text-[10px] text-gray-500 leading-relaxed">Peralatan selalu disterilkan sebelum dan sesudah sesi.</p>
               </div>
             </div>
-            <div class="flex items-start space-x-3">
-              <div class="text-gold mt-1"><i data-lucide="user-check" class="w-5 h-5"></i></div>
+            <div class="flex items-start space-x-4 p-4 rounded-2xl bg-white/5 border border-white/5">
+              <div class="text-gold"><i data-lucide="award" class="w-6 h-6"></i></div>
               <div>
-                <h4 class="font-bold text-white text-sm uppercase">Master Barber</h4>
-                <p class="text-xs text-gray-500 italic">Tenaga ahli dengan pengalaman minimal 5 tahun.</p>
-              </div>
-            </div>
-            <div class="flex items-start space-x-3">
-              <div class="text-gold mt-1"><i data-lucide="clock" class="w-5 h-5"></i></div>
-              <div>
-                <h4 class="font-bold text-white text-sm uppercase">Fleksibel</h4>
-                <p class="text-xs text-gray-500 italic">Pesan kapan saja, kami datang tepat waktu.</p>
-              </div>
-            </div>
-            <div class="flex items-start space-x-3">
-              <div class="text-gold mt-1"><i data-lucide="award" class="w-5 h-5"></i></div>
-              <div>
-                <h4 class="font-bold text-white text-sm uppercase">VIP Tools</h4>
-                <p class="text-xs text-gray-500 italic">Menggunakan produk styling kelas dunia.</p>
+                <h5 class="font-bold text-xs uppercase tracking-widest mb-1">Expert Barber</h5>
+                <p class="text-[10px] text-gray-500 leading-relaxed">Berpengalaman bertahun-tahun di barbershop papan atas.</p>
               </div>
             </div>
           </div>
-          <a href="#services" class="inline-block text-gold font-bold uppercase tracking-widest text-xs border-b-2 border-gold/30 pb-2 hover:border-gold transition">Lihat Keunggulan Kami <i data-lucide="arrow-right" class="inline w-4 h-4 ml-1"></i></a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Services -->
-  <section id="services" class="py-24 bg-card/20">
+  <!-- Services Grid -->
+  <section id="services" class="py-20 md:py-32 bg-[#0d0d0d]">
     <div class="max-w-7xl mx-auto px-6">
-      <div class="text-center mb-16 reveal">
-        <h2 class="text-4xl font-bold mb-4 uppercase tracking-tight">Katalog <span class="text-gold">Layanan VIP</span></h2>
-        <p class="text-gray-500 max-w-xl mx-auto">Kami menyediakan berbagai pilihan paket grooming eksklusif yang dirancang khusus untuk kenyamanan Anda.</p>
+      <div class="text-center mb-16 md:mb-24 reveal">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black mb-6 uppercase tracking-tighter italic">Layanan <span class="text-gold">Unggulan</span></h2>
+        <div class="w-20 h-1 gold-gradient mx-auto mb-6"></div>
+        <p class="text-gray-500 max-w-lg mx-auto text-sm sm:text-base">Pilih paket yang sesuai dengan kebutuhan gaya hidup Anda.</p>
       </div>
-      <div id="services-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[300px]">
-        <!-- Rendered by JS -->
+      <div id="services-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <!-- Menunggu Data JS -->
       </div>
     </div>
   </section>
 
   <!-- Process Section -->
-  <section id="process" class="py-24 bg-black relative overflow-hidden">
+  <section id="process" class="py-20 md:py-32 bg-black">
     <div class="max-w-7xl mx-auto px-6">
-      <div class="text-center mb-20 reveal">
-        <h2 class="text-4xl font-bold mb-4 uppercase tracking-tight">Bagaimana <span class="text-gold">Cara Kerjanya?</span></h2>
-        <p class="text-gray-500">Hanya butuh 3 langkah mudah untuk mendapatkan tampilan baru Anda.</p>
+      <div class="text-center mb-16 md:mb-24 reveal">
+        <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tighter mb-4 italic">Proses <span class="text-gold">Mudah</span></h2>
+        <p class="text-gray-500 text-sm tracking-widest uppercase">Tiga Langkah Menuju Penampilan Sempurna</p>
       </div>
-      
-      <div class="grid md:grid-cols-3 gap-12 relative">
-        <div class="text-center reveal">
-          <div class="relative inline-block mb-8">
-            <div class="w-24 h-24 bg-card border border-gold/20 rounded-3xl flex items-center justify-center rotate-12 hover:rotate-0 transition-transform duration-500">
-              <i data-lucide="smartphone" class="w-10 h-10 text-gold -rotate-12 group-hover:rotate-0"></i>
-            </div>
-            <div class="absolute -top-4 -right-4 w-10 h-10 gold-gradient text-black rounded-full flex items-center justify-center font-black text-lg shadow-xl">1</div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6 lg:gap-12 relative">
+        <div class="text-center group reveal">
+          <div class="w-20 h-20 bg-white/5 border border-white/10 rounded-2xl mx-auto flex items-center justify-center mb-8 group-hover:border-gold group-hover:bg-gold/5 transition-all rotate-3 group-hover:rotate-0">
+            <i data-lucide="smartphone" class="w-8 h-8 text-gold"></i>
           </div>
-          <h3 class="text-xl font-bold mb-4 uppercase tracking-tight">Booking Online</h3>
-          <p class="text-gray-500 text-sm italic">Pilih layanan favorit Anda melalui WhatsApp dan tentukan jadwal yang pas.</p>
+          <h4 class="font-black uppercase tracking-widest text-xs mb-4">1. Pesan Online</h4>
+          <p class="text-gray-500 text-[11px] leading-relaxed px-4 italic">Pilih waktu dan layanan favorit Anda melalui integrasi WhatsApp kami yang cepat.</p>
         </div>
-
-        <div class="text-center reveal" style="transition-delay: 200ms;">
-          <div class="relative inline-block mb-8">
-            <div class="w-24 h-24 bg-card border border-gold/20 rounded-3xl flex items-center justify-center -rotate-6 hover:rotate-0 transition-transform duration-500">
-              <i data-lucide="map-pin" class="w-10 h-10 text-gold rotate-6 group-hover:rotate-0"></i>
-            </div>
-            <div class="absolute -top-4 -right-4 w-10 h-10 gold-gradient text-black rounded-full flex items-center justify-center font-black text-lg shadow-xl">2</div>
+        <div class="text-center group reveal" style="transition-delay: 200ms;">
+          <div class="w-20 h-20 bg-white/5 border border-white/10 rounded-2xl mx-auto flex items-center justify-center mb-8 group-hover:border-gold group-hover:bg-gold/5 transition-all -rotate-3 group-hover:rotate-0">
+            <i data-lucide="map-pin" class="w-8 h-8 text-gold"></i>
           </div>
-          <h3 class="text-xl font-bold mb-4 uppercase tracking-tight">Barber Datang</h3>
-          <p class="text-gray-500 text-sm italic">Master Barber kami tiba di lokasi Anda dengan peralatan lengkap dan steril.</p>
+          <h4 class="font-black uppercase tracking-widest text-xs mb-4">2. Kami Datang</h4>
+          <p class="text-gray-500 text-[11px] leading-relaxed px-4 italic">Barber kami akan berangkat sesuai jadwal dan tiba di lokasi Anda tepat waktu.</p>
         </div>
-
-        <div class="text-center reveal" style="transition-delay: 400ms;">
-          <div class="relative inline-block mb-8">
-            <div class="w-24 h-24 bg-card border border-gold/20 rounded-3xl flex items-center justify-center rotate-6 hover:rotate-0 transition-transform duration-500">
-              <i data-lucide="check-circle" class="w-10 h-10 text-gold -rotate-6 group-hover:rotate-0"></i>
-            </div>
-            <div class="absolute -top-4 -right-4 w-10 h-10 gold-gradient text-black rounded-full flex items-center justify-center font-black text-lg shadow-xl">3</div>
+        <div class="text-center group reveal" style="transition-delay: 400ms;">
+          <div class="w-20 h-20 bg-white/5 border border-white/10 rounded-2xl mx-auto flex items-center justify-center mb-8 group-hover:border-gold group-hover:bg-gold/5 transition-all rotate-6 group-hover:rotate-0">
+            <i data-lucide="check-circle" class="w-8 h-8 text-gold"></i>
           </div>
-          <h3 class="text-xl font-bold mb-4 uppercase tracking-tight">Hasil Maksimal</h3>
-          <p class="text-gray-500 text-sm italic">Selesai! Nikmati hasil cukur profesional tanpa harus meninggalkan rumah.</p>
+          <h4 class="font-black uppercase tracking-widest text-xs mb-4">3. Hasil Maksimal</h4>
+          <p class="text-gray-500 text-[11px] leading-relaxed px-4 italic">Dapatkan hasil cukur presisi dan grooming menyeluruh di kenyamanan rumah Anda.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Portfolio -->
-  <section id="portfolio" class="py-24 bg-card/10">
-    <div class="max-w-7xl mx-auto px-6 text-center reveal">
-      <h2 class="text-4xl font-bold mb-12">Hasil <span class="text-gold uppercase">Masterpiece</span></h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="overflow-hidden rounded-2xl bg-card border border-white/5 aspect-square">
-          <img src="https://images.unsplash.com/photo-1621605815841-aa897bd07b44?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="Portfolio 1">
+  <!-- Portfolio Masonry-style -->
+  <section id="portfolio" class="py-20 md:py-32 bg-[#0d0d0d]">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 reveal">
+        <div>
+          <h2 class="text-3xl md:text-5xl font-black uppercase italic tracking-tighter mb-4 text-white">Visual <span class="text-gold">Gallery</span></h2>
+          <p class="text-gray-500 uppercase tracking-widest text-[10px]">Bukti Kualitas Layanan Kami</p>
         </div>
-        <div class="overflow-hidden rounded-2xl bg-card border border-white/5 aspect-square">
-          <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="Portfolio 2">
+        <div class="text-gold font-black text-xs uppercase tracking-[0.3em] flex items-center">
+          Ikuti Kami @thegentleman <i data-lucide="arrow-up-right" class="w-4 h-4 ml-2"></i>
         </div>
-        <div class="overflow-hidden rounded-2xl bg-card border border-white/5 aspect-square">
-          <img src="https://images.unsplash.com/photo-1532710093739-9470acff878f?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="Portfolio 3">
-        </div>
-        <div class="overflow-hidden rounded-2xl bg-card border border-white/5 aspect-square">
-          <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="Portfolio 4">
-        </div>
+      </div>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+        <div class="aspect-[4/5] rounded-2xl overflow-hidden bg-card reveal"><img src="https://images.unsplash.com/photo-1621605815841-aa897bd07b44?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover hover:scale-110 transition duration-700"></div>
+        <div class="aspect-[4/5] rounded-2xl overflow-hidden bg-card reveal" style="transition-delay: 100ms;"><img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover hover:scale-110 transition duration-700"></div>
+        <div class="aspect-[4/5] rounded-2xl overflow-hidden bg-card reveal" style="transition-delay: 200ms;"><img src="https://images.unsplash.com/photo-1532710093739-9470acff878f?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover hover:scale-110 transition duration-700"></div>
+        <div class="aspect-[4/5] rounded-2xl overflow-hidden bg-card reveal" style="transition-delay: 300ms;"><img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover hover:scale-110 transition duration-700"></div>
       </div>
     </div>
   </section>
 
   <!-- Testimonials -->
-  <section id="testimonials" class="py-24">
+  <section id="testimonials" class="py-20 md:py-32 bg-black">
     <div class="max-w-7xl mx-auto px-6">
-      <div class="text-center mb-16 reveal">
-        <h2 class="text-4xl font-bold mb-4 uppercase tracking-tight">Apa Kata <span class="text-gold">Klien Kami?</span></h2>
-        <p class="text-gray-500">Lebih dari 1000+ pria telah merasakan kenyamanan grooming di rumah.</p>
+      <div class="text-center mb-16 md:mb-24 reveal">
+        <h2 class="text-3xl md:text-4xl font-black uppercase italic mb-4">Suara <span class="text-gold">Klien</span></h2>
+        <p class="text-gray-500 uppercase tracking-widest text-[10px]">Testimoni dari mereka yang sudah mencoba</p>
       </div>
-      <div id="testimonial-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Rendered by JS -->
-      </div>
-      <div class="mt-16 text-center reveal">
-        <a id="testimoniWABtn" href="#" class="text-gold border-b border-gold/30 pb-1 hover:border-gold transition text-sm font-bold uppercase tracking-widest">
-          Kirim Testimoni Anda
-        </a>
+      <div id="testimonial-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <!-- Menunggu Data JS -->
       </div>
     </div>
   </section>
 
-  <!-- Final CTA -->
-  <section id="booking-cta" class="py-24 border-y border-white/5 bg-card/10">
+  <!-- CTA Section -->
+  <section id="booking-cta" class="py-24 bg-card/10 border-y border-white/5">
     <div class="max-w-4xl mx-auto px-6 text-center reveal">
-      <h2 class="text-4xl md:text-6xl font-extrabold mb-8 uppercase tracking-tighter">Tampil Gagah <span class="text-gold">Hari Ini?</span></h2>
-      <p class="text-xl text-gray-400 mb-12">Pemesanan dapat dilakukan maksimal 2 jam sebelum kedatangan.</p>
-      <a id="mainWABtn" href="#" class="inline-flex items-center space-x-3 gold-gradient text-black px-12 py-6 rounded-2xl font-black text-xl hover:scale-105 transition shadow-2xl">
-        <i data-lucide="message-circle" class="w-8 h-8"></i>
-        <span>Pesan Melalui WhatsApp</span>
+      <h2 class="text-3xl md:text-6xl font-black mb-8 uppercase tracking-tighter italic leading-none">Siap Untuk <br><span class="text-gold italic">Upgrade Penampilan?</span></h2>
+      <p class="text-gray-400 mb-12 text-sm sm:text-lg italic px-4">Slot tersedia terbatas setiap harinya. Amankan jadwal Anda sekarang juga melalui WhatsApp.</p>
+      <a id="mainWABtn" href="#" class="inline-flex items-center space-x-4 gold-gradient text-black px-10 py-6 rounded-2xl font-black text-sm sm:text-lg uppercase tracking-widest hover:scale-105 transition-transform shadow-2xl shadow-gold/20">
+        <i data-lucide="message-square" class="w-6 h-6"></i>
+        <span>Pesan Via WhatsApp</span>
       </a>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-black pt-24 pb-12 px-6 footer-glow border-t border-white/5 relative z-10">
-    <div class="max-w-7xl mx-auto">
-      <div class="grid md:grid-cols-4 gap-12 mb-20">
-        <div class="col-span-1 md:col-span-1">
-          <div class="text-3xl font-black text-gold mb-6 tracking-tighter uppercase">The Gentleman.</div>
-          <p class="text-gray-500 text-sm leading-relaxed mb-8 italic">Pionir layanan barber panggilan premium yang mengutamakan kualitas, sterilitas, dan kenyamanan pelanggan.</p>
-          <div class="flex space-x-4">
-            <a href="#" class="w-10 h-10 bg-card rounded-lg flex items-center justify-center text-gold border border-gold/10 hover:border-gold transition"><i data-lucide="instagram" class="w-5 h-5"></i></a>
-            <a href="#" class="w-10 h-10 bg-card rounded-lg flex items-center justify-center text-gold border border-gold/10 hover:border-gold transition"><i data-lucide="facebook" class="w-5 h-5"></i></a>
-            <a href="#" class="w-10 h-10 bg-card rounded-lg flex items-center justify-center text-gold border border-gold/10 hover:border-gold transition"><i data-lucide="youtube" class="w-5 h-5"></i></a>
+  <footer class="bg-black pt-20 pb-10 border-t border-white/5">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+        <div class="col-span-1 lg:col-span-1">
+          <div class="text-2xl font-black text-gold mb-6 uppercase italic">The Gentleman.</div>
+          <p class="text-gray-500 text-xs leading-relaxed italic mb-8">Pionir barber panggilan premium yang membawa seni grooming ke ruang pribadi Anda.</p>
+          <div class="flex space-x-3">
+            <a href="#" class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center text-gold hover:bg-gold hover:text-black transition-all"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+            <a href="#" class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center text-gold hover:bg-gold hover:text-black transition-all"><i data-lucide="twitter" class="w-5 h-5"></i></a>
           </div>
         </div>
-        <div class="col-span-1">
-          <h4 class="text-white font-bold mb-8 uppercase tracking-widest text-xs">Menu Cepat</h4>
-          <ul class="space-y-4 text-sm">
-            <li><a href="#about" class="text-gray-500 hover:text-gold transition">Tentang Kami</a></li>
-            <li><a href="#services" class="text-gray-500 hover:text-gold transition">Layanan VIP</a></li>
-            <li><a href="#process" class="text-gray-500 hover:text-gold transition">Proses</a></li>
-            <li><a href="#portfolio" class="text-gray-500 hover:text-gold transition">Galeri Hasil</a></li>
-          </ul>
+        <div class="text-xs uppercase tracking-widest space-y-6">
+          <h4 class="text-white font-black mb-6">Navigasi</h4>
+          <a href="#about" class="block text-gray-500 hover:text-gold transition">Tentang</a>
+          <a href="#services" class="block text-gray-500 hover:text-gold transition">Layanan</a>
+          <a href="#portfolio" class="block text-gray-500 hover:text-gold transition">Hasil</a>
         </div>
-        <div class="col-span-1">
-          <h4 class="text-white font-bold mb-8 uppercase tracking-widest text-xs">Jam Operasional</h4>
-          <ul class="space-y-4 text-sm text-gray-500">
-            <li class="flex justify-between"><span>Senin - Jumat</span> <span class="text-gold">09:00 - 21:00</span></li>
-            <li class="flex justify-between"><span>Sabtu - Minggu</span> <span class="text-gold">08:00 - 22:00</span></li>
-            <li class="pt-4 italic text-[10px] border-t border-white/5">*Layanan tetap buka di hari libur nasional</li>
-          </ul>
+        <div class="text-xs uppercase tracking-widest space-y-6">
+          <h4 class="text-white font-black mb-6">Operasional</h4>
+          <p class="text-gray-500 flex justify-between"><span>Ssn - Jmt</span> <span class="text-gold">09:00 - 21:00</span></p>
+          <p class="text-gray-500 flex justify-between"><span>Sab - Mgg</span> <span class="text-gold">08:00 - 22:00</span></p>
         </div>
-        <div class="col-span-1">
-          <h4 class="text-white font-bold mb-8 uppercase tracking-widest text-xs">Informasi</h4>
-          <ul class="space-y-4 text-sm text-gray-500">
-            <li class="flex items-center space-x-3">
-              <i data-lucide="map-pin" class="w-4 h-4 text-gold"></i>
-              <span>Area Jabodetabek</span>
-            </li>
-            <li class="flex items-center space-x-3">
-              <i data-lucide="phone" class="w-4 h-4 text-gold"></i>
-              <span id="footerPhone">+62 812 3456 789</span>
-            </li>
-            <li class="flex items-center space-x-3">
-              <i data-lucide="mail" class="w-4 h-4 text-gold"></i>
-              <span>admin@thegentleman.com</span>
-            </li>
-          </ul>
+        <div class="text-xs uppercase tracking-widest space-y-6">
+          <h4 class="text-white font-black mb-6">Kontak</h4>
+          <p class="text-gray-500 flex items-center"><i data-lucide="map-pin" class="w-4 h-4 mr-3 text-gold"></i> Jakarta & Sekitarnya</p>
+          <p id="footerPhone" class="text-gray-500 flex items-center"><i data-lucide="phone" class="w-4 h-4 mr-3 text-gold"></i> +62 812 3456 7890</p>
         </div>
       </div>
-      <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-center md:text-left">
-        <p class="text-[10px] text-gray-600 mb-4 md:mb-0 uppercase tracking-widest">&copy; 2024 The Gentleman. Semua hak dilindungi.</p>
-        <div class="flex space-x-8 text-[10px] text-gray-600 uppercase tracking-widest font-medium">
-          <a href="#" class="hover:text-gold transition font-black text-gold">Gemini Powered</a>
-          <a href="#" class="hover:text-gold transition">Syarat & Ketentuan</a>
+      <div class="pt-10 border-t border-white/5 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-4">
+        <p class="text-[10px] text-gray-600 uppercase tracking-widest">&copy; 2024 The Gentleman. Crafted with Pride.</p>
+        <div class="flex space-x-6 text-[10px] text-gray-600 uppercase tracking-widest font-black">
+          <a href="#" class="hover:text-gold">Privacy Policy</a>
+          <a href="#" class="hover:text-gold">Terms of Use</a>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- Floating WA -->
-  <a id="floatingWA" href="#" class="fixed bottom-8 right-8 z-[100] bg-green-600 p-5 rounded-2xl shadow-2xl hover:scale-110 transition-all group">
-    <div class="absolute right-full mr-4 bg-white text-black px-4 py-2 rounded-lg text-xs font-black whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all shadow-xl">Booking Cepat</div>
-    <i data-lucide="message-circle" class="text-white w-8 h-8"></i>
+  <!-- Floating WhatsApp for Mobile -->
+  <a id="floatingWA" href="#" class="fixed bottom-6 right-6 z-[90] sm:bottom-10 sm:right-10 bg-green-600 p-4 rounded-2xl shadow-2xl hover:scale-110 transition-transform flex items-center space-x-2">
+    <i data-lucide="message-circle" class="text-white w-7 h-7"></i>
+    <span class="text-white text-xs font-black uppercase tracking-tighter hidden md:block">Konsultasi</span>
   </a>
 
   <script>
+    // Data Cadangan (Fallback) jika koneksi Google Script tidak tersedia
+    const fallbackData = {
+      whatsappNumber: "6281234567890",
+      services: [
+        { icon: "scissors", name: "Classic Gentleman Cut", desc: "Cukur rambut gaya klasik dengan sentuhan modern, cuci rambut, dan styling pomade.", price: "Rp 150.000" },
+        { icon: "brush", name: "Royal Shaving", desc: "Pencukuran jenggot/kumis tradisional menggunakan pisau cukur satu mata dan kompres handuk hangat.", price: "Rp 100.000" },
+        { icon: "user-check", name: "Complete Grooming", desc: "Paket komplit: Cukur rambut, cuci rambut, pijat kepala/bahu, dan masker wajah.", price: "Rp 250.000" }
+      ],
+      testimonials: [
+        { name: "Budi Santoso", role: "Pengusaha", text: "Layanan sangat memuaskan. Barber datang tepat waktu dan alatnya sangat bersih. Tidak perlu macet-macetan lagi." },
+        { name: "Andi Wijaya", role: "Creative Director", text: "Potongannya sangat detail dan rapi. Benar-benar standar barbershop kelas atas langsung di rumah saya." },
+        { name: "Rizky Pratama", role: "Mahasiswa", text: "Praktis banget buat yang sibuk. Harganya juga worth it dengan kualitas layanan yang didapatkan." }
+      ]
+    };
+
+    // Initialize Lucide Icons
     lucide.createIcons();
 
-    function reveal() {
-      var reveals = document.querySelectorAll(".reveal");
-      for (var i = 0; i < reveals.length; i++) {
-        var windowHeight = window.innerHeight;
-        var elementTop = reveals[i].getBoundingClientRect().top;
-        var elementVisible = 100;
-        if (elementTop < windowHeight - elementVisible) {
-          reveals[i].classList.add("active");
+    // Intersection Observer for Animations
+    const revealOptions = { threshold: 0.15 };
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
         }
-      }
-    }
-    window.addEventListener("scroll", reveal);
+      });
+    }, revealOptions);
+
+    // Mobile Menu Logic
+    const menuToggle = document.getElementById('menu-toggle');
+    const menuClose = document.getElementById('menu-close');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    const toggleMenu = (open) => {
+      mobileMenu.classList.toggle('active', open);
+      document.body.style.overflow = open ? 'hidden' : 'auto';
+    };
+
+    menuToggle.onclick = () => toggleMenu(true);
+    menuClose.onclick = () => toggleMenu(false);
+    mobileLinks.forEach(link => link.onclick = () => toggleMenu(false));
 
     function init() {
-      google.script.run
-        .withSuccessHandler(data => {
-          if (data && !data.error) {
-            renderServices(data.services, data.whatsappNumber);
-            renderTestimonials(data.testimonials);
-            updateLinks(data.whatsappNumber);
-          }
-        })
-        .getAppLayoutData();
+      // Cek apakah fungsi google.script.run tersedia (Lingkungan GAS)
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(data => {
+            if (data && !data.error) {
+              loadWebsiteData(data);
+            } else {
+              loadWebsiteData(fallbackData);
+            }
+          })
+          .getAppLayoutData();
+      } else {
+        // Jika tidak di GAS, gunakan data cadangan agar website tetap berfungsi
+        console.warn("Google Script environment not detected. Using fallback data.");
+        loadWebsiteData(fallbackData);
+      }
+    }
+
+    function loadWebsiteData(data) {
+      renderServices(data.services, data.whatsappNumber);
+      renderTestimonials(data.testimonials);
+      updateLinks(data.whatsappNumber);
+      
+      // Re-observe dynamic elements
+      document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
     }
 
     function renderServices(services, waNum) {
       const grid = document.getElementById('services-grid');
       grid.innerHTML = services.map(s => `
         <div class="bg-card p-8 rounded-3xl border border-white/5 hover-scale group flex flex-col h-full reveal active">
-          <div class="text-gold mb-6 bg-black/50 w-14 h-14 rounded-2xl flex items-center justify-center border border-gold/10 group-hover:border-gold/50 transition">
-            <i data-lucide="${s.icon}" class="w-8 h-8"></i>
+          <div class="w-12 h-12 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-gold mb-8 group-hover:bg-gold group-hover:text-black transition-colors duration-500">
+            <i data-lucide="${s.icon}" class="w-6 h-6"></i>
           </div>
-          <h3 class="text-xl font-bold mb-2 uppercase tracking-tight group-hover:text-gold transition">${s.name}</h3>
-          <p class="text-sm text-gray-500 mb-6 flex-grow leading-relaxed italic">${s.desc}</p>
-          <div class="mb-8">
-            <span class="text-[10px] uppercase tracking-[0.3em] text-gold font-black bg-gold/10 px-4 py-2 rounded-lg border border-gold/20 shadow-inner">
-              ${s.price}
-            </span>
+          <h3 class="text-lg font-black uppercase tracking-tighter mb-2 italic group-hover:text-gold transition-colors">${s.name}</h3>
+          <p class="text-[11px] text-gray-500 mb-8 leading-relaxed italic flex-grow">${s.desc}</p>
+          <div class="flex items-center justify-between mt-auto pt-6 border-t border-white/5">
+            <span class="text-[10px] font-black uppercase tracking-widest text-gold">${s.price}</span>
+            <a href="https://wa.me/${waNum}?text=Halo%20The%20Gentleman,%20booking%20paket%20${encodeURIComponent(s.name)}." 
+               class="text-[10px] font-black uppercase tracking-widest hover:text-gold transition-colors underline decoration-gold/30">Pesan <i data-lucide="chevron-right" class="inline w-3 h-3"></i></a>
           </div>
-          <a href="https://wa.me/${waNum}?text=Halo%20The%20Gentleman,%20saya%20ingin%20booking%20paket%20${encodeURIComponent(s.name)}." 
-             target="_blank"
-             class="w-full text-center py-4 rounded-xl font-black bg-white/5 border border-white/10 hover:border-gold hover:text-gold hover:bg-gold/5 transition-all text-xs uppercase tracking-widest">
-            Pesan Via WhatsApp
-          </a>
         </div>
       `).join('');
       lucide.createIcons();
@@ -370,22 +392,16 @@
     function renderTestimonials(tests) {
       const grid = document.getElementById('testimonial-grid');
       grid.innerHTML = tests.map(t => `
-        <div class="bg-card p-10 rounded-3xl border border-white/5 text-left hover-scale reveal active flex flex-col h-full">
-          <div class="flex text-gold mb-6">
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+        <div class="bg-card p-8 rounded-3xl border border-white/5 hover:border-gold/20 transition-all reveal active h-full flex flex-col">
+          <div class="flex text-gold mb-6 space-x-1">
+            ${Array(5).fill('<i data-lucide="star" class="w-3 h-3 fill-current"></i>').join('')}
           </div>
-          <p class="text-gray-400 italic mb-8 leading-relaxed flex-grow">"${t.text}"</p>
-          <div class="flex items-center space-x-4 border-t border-white/5 pt-6">
-            <div class="w-10 h-10 bg-gold/20 rounded-full flex items-center justify-center text-gold font-black text-xs">
-              ${t.name.charAt(0)}
-            </div>
+          <p class="text-gray-400 text-sm italic leading-relaxed mb-8 flex-grow">"${t.text}"</p>
+          <div class="flex items-center space-x-4 pt-6 border-t border-white/5">
+            <div class="w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center text-gold font-black text-xs border border-gold/10">${t.name.charAt(0)}</div>
             <div>
-              <p class="font-bold text-white text-sm">${t.name}</p>
-              <p class="text-[10px] text-gray-600 uppercase tracking-widest">${t.role}</p>
+              <p class="text-xs font-black uppercase tracking-wider text-white">${t.name}</p>
+              <p class="text-[9px] text-gray-600 uppercase tracking-[0.2em]">${t.role}</p>
             </div>
           </div>
         </div>
@@ -394,10 +410,18 @@
     }
 
     function updateLinks(num) {
-      document.getElementById('mainWABtn').href = `https://wa.me/${num}?text=Halo%20The%20Gentleman,%20saya%20ingin%20booking%20jadwal%20sekarang.`;
-      document.getElementById('floatingWA').href = `https://wa.me/${num}?text=Halo%20The%20Gentleman,%20saya%20mau%20booking%20barber%20panggilan.`;
-      document.getElementById('testimoniWABtn').href = `https://wa.me/${num}?text=Halo%20The%20Gentleman,%20saya%20sangat%20puas%20dengan%20layanannya!`;
-      document.getElementById('footerPhone').innerText = `+${num.slice(0,2)} ${num.slice(2,5)} ${num.slice(5,9)} ${num.slice(9)}`;
+      const waLinks = [
+        { id: 'mainWABtn', msg: 'Halo The Gentleman, saya ingin booking jadwal sekarang.' },
+        { id: 'floatingWA', msg: 'Halo The Gentleman, saya mau konsultasi style rambut.' }
+      ];
+
+      waLinks.forEach(link => {
+        const el = document.getElementById(link.id);
+        if (el) el.href = `https://wa.me/${num}?text=${encodeURIComponent(link.msg)}`;
+      });
+
+      const footerPhone = document.getElementById('footerPhone');
+      if (footerPhone) footerPhone.innerText = `+${num}`;
     }
 
     window.onload = init;
